@@ -23,4 +23,4 @@ WORKDIR /opt/Espressif/crosstool-NG
 RUN ./bootstrap && ./configure --prefix=`pwd` && make && make install
 RUN ./ct-ng xtensa-lx106-elf
 RUN ./ct-ng build
-ENV PATH=$PWD/builds/xtensa-lx106-elf/bin:$PATH
+ENV PATH $PWD/builds/xtensa-lx106-elf/bin:$PATH
