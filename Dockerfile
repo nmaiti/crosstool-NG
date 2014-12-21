@@ -1,4 +1,4 @@
-# FROM phusion/baseimage:0.9.15
+# FRO phusion/baseimage:0.9.15
 
 FROM ubuntu:14.04
 
@@ -29,7 +29,7 @@ WORKDIR /opt/Espressif/crosstool-NG
 RUN ./bootstrap && ./configure --prefix=`pwd` && make && sudo make install
 RUN ./ct-ng xtensa-lx106-elf
 RUN ./ct-ng build
-ENV PATH .:/opt/Espressif/crosstool-NG/builds/xtensa-lx106-elf/bin:$PATH
+ENV PATH .:/opt/Espressif/crosstool-NG/builds/xtensa-lx106-elf/bin:/opt/Espressif/esptool-ck:$PATH
 
 WORKDIR /opt/Espressif
 RUN mkdir ESP8266_SDK
@@ -37,12 +37,12 @@ RUN wget -O esp_iot_sdk_v0.9.3_14_11_21.zip https://github.com/esp8266/esp8266-w
 RUN wget -O esp_iot_sdk_v0.9.3_14_11_21_patch1.zip https://github.com/esp8266/esp8266-wiki/raw/master/sdk/esp_iot_sdk_v0.9.3_14_11_21_patch1.zip
 RUN unzip esp_iot_sdk_v0.9.3_14_11_21.zip
 RUN unzip -o esp_iot_sdk_v0.9.3_14_11_21_patch1.zip
-RUN sudo mv esp_iot_sdk_v0.9.3/* ESP8266_SDK/
-RUN sudo rm -rf ESP8266_SDK
+RUN for i in `ls esp_iot_sdk_v0.9.3`; do  echo $i;  mv esp_iot_sdk_v0.9.3/$i ESP8266_SDK/; done
+RUN sudo rm -rf esp_iot_sdk_v0.9.3
 RUN mv License ESP8266_SDK/
 RUN rm esp_iot_sdk_v0.9.3_14_11_21.zip esp_iot_sdk_v0.9.3_14_11_21_patch1.zip 
 
-WORKDIR /opt/Espressif/ESP8266_SDK/esp_iot_sdk_v0.9.3
+WORKDIR /opt/Espressif/ESP8266_SDK
 RUN sed -i -e 's/xt-ar/xtensa-lx106-elf-ar/' -e 's/xt-xcc/xtensa-lx106-elf-gcc/' -e 's/xt-objcopy/xtensa-lx106-elf-objcopy/' Makefile
 RUN mv examples/IoT_Demo .
 
@@ -55,25 +55,36 @@ WORKDIR /opt/Espressif
 # RUN wget -O esptool_0.0.2-1_i386.deb https://github.com/esp8266/esp8266-wiki/raw/master/deb/esptool_0.0.2-1_i386.deb
 # RUN sudo dpkg -i esptool_0.0.2-1_i386.deb
 RUN git clone https://github.com/tommie/esptool-ck.git
-RUN cd esptool-ck && make 
+RUN cd esptool-ck && make && sudo cp esptool /usr/bin
 
 RUN git clone https://github.com/themadinventor/esptool esptool-py
 
 RUN sudo ln -s $PWD/esptool-py/esptool.py crosstool-NG/builds/xtensa-lx106-elf/bin/
 
-ENV CPATH /opt/Espressif/ESP8266_SDK/esp_iot_sdk_v0.9.3/include
-ENV LD_LIBRARY_PATH /opt/Espressif/ESP8266_SDK/esp_iot_sdk_v0.9.3/lib
+ENV CPATH /opt/Espressif/ESP8266_SDK/include
+ENV LD_LIBRARY_PATH /opt/Espressif/ESP8266_SDK/lib
 RUN export 
 
 # Examples:
 #  https://github.com/esp8266/esp8266-wiki/wiki/Building
 
-WORKDIR /opt/Espressif/ESP8266_SDK/esp_iot_sdk_v0.9.3
-
-RUN ln -s /opt/Espressif/ESP8266_SDK/esp_iot_sdk_v0.9.3/ld /opt/Espressif/ESP8266_SDK/ld
+WORKDIR /opt/Espressif/ESP8266_SDK
 RUN make 
 
 WORKDIR /opt/Espressif
 RUN git clone https://github.com/esp8266/source-code-examples.git
 RUN ln -s /opt/Espressif/ESP8266_SDK/esp_iot_sdk_v0.9.3/ld  /opt/Espressif/source-code-examples/ld
 RUN cd source-code-examples/blinky && make
+
+WORKDIR /opt/Espressif/ESP8266_SDK
+RUN wget -O at_v0.20_14_11_28.zip https://github.com/esp8266/esp8266-wiki/raw/master/sdk/at_v0.20_14_11_28.zip
+RUN unzip at_v0.20_14_11_28.zip && rm -rf at_v0.20_14_11_28.zip
+RUN cd at_v0.20_on_SDKv0.9.3 && for i in `ls at`; do mv at/$i .; done && make 
+
+WORKDIR /opt/Espressif/ESP8266_SDK/IoT_Demo
+RUN make
+WORKDIR /opt/Espressif/ESP8266_SDK/IoT_Demo/.output/eagle/debug/image
+RUN esptool -eo eagle.app.v6.out -bo eagle.app.v6.flash.bin -bs .text -bs .data -bs .rodata -bc -ec
+RUN xtensa-lx106-elf-objcopy --only-section .irom0.text -O binary eagle.app.v6.out eagle.app.v6.irom0text.bin
+RUN cp eagle.app.v6.flash.bin ../../../../../bin/
+RUN cp eagle.app.v6.irom0text.bin ../../../../../bin/
