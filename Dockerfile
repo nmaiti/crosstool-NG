@@ -88,3 +88,5 @@ RUN esptool -eo eagle.app.v6.out -bo eagle.app.v6.flash.bin -bs .text -bs .data 
 RUN xtensa-lx106-elf-objcopy --only-section .irom0.text -O binary eagle.app.v6.out eagle.app.v6.irom0text.bin
 RUN cp eagle.app.v6.flash.bin ../../../../../bin/
 RUN cp eagle.app.v6.irom0text.bin ../../../../../bin/
+
+WORKDIR /opt/Espressif
