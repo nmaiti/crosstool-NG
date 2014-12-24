@@ -16,7 +16,7 @@ This is a prebuild toolchain with every step from:
 
 To start this image simply use:
 ```
-$ docker run -ti --privileged marcelmaatkamp/esp8266-crosstool-ng:1.0 /bin/bash
+$ docker run -ti --privileged marcelmaatkamp/esp8266-crosstool-ng:latest /bin/bash
 ```
 
 Then test your setup by uploading the example code:
