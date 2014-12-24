@@ -1,5 +1,7 @@
 # FRO phusion/baseimage:0.9.15
 
+
+
 FROM ubuntu:14.04
 
 MAINTAINER m.maatkamp@gmail.com version: 0.1
@@ -88,5 +90,18 @@ RUN esptool -eo eagle.app.v6.out -bo eagle.app.v6.flash.bin -bs .text -bs .data 
 RUN xtensa-lx106-elf-objcopy --only-section .irom0.text -O binary eagle.app.v6.out eagle.app.v6.irom0text.bin
 RUN cp eagle.app.v6.flash.bin ../../../../../bin/
 RUN cp eagle.app.v6.irom0text.bin ../../../../../bin/
+
+WORKDIR /opt/Espressif/crosstool-NG/builds/xtensa-lx106-elf/bin
+RUN for i in `ls`; do  filename=`echo $i|sed -e 's/xtensa-lx106-elf-//'`; sudo ln -s xtensa-lx106-elf-$filename /opt/Espressif/crosstool-NG/builds/xtensa-lx106-elf/bin/xt-$filename; done
+RUN sudo ln -s /opt/Espressif/crosstool-NG/builds/xtensa-lx106-elf/bin/xtensa-lx106-elf-gcc /opt/Espressif/crosstool-NG/builds/xtensa-lx106-elf/bin/xt-xcc
+
+WORKDIR /opt/Espressif
+RUN git clone https://github.com/nodemcu/nodemcu-firmware.git
+WORKDIR /opt/Espressif/nodemcu-firmware
+RUN cat /opt/Espressif/ESP8266_SDK/include/sys/fcntl.h | sed -e 's/#include <xtensa\/simcall-fcntl.h>/\/\/ #include <xtensa\/simcall-fcntl.h>/g' > /opt/Espressif/ESP8266_SDK/include/sys/fcntl.h.bak
+RUN mv /opt/Espressif/ESP8266_SDK/include/sys/fcntl.h.bak /opt/Espressif/ESP8266_SDK/include/sys/fcntl.h
+RUN cat /opt/Espressif/ESP8266_SDK/include/machine/setjmp.h | sed -e 's/#if __XTENSA_WINDOWED_ABI__/#ifdef __XTENSA_WINDOWED_ABI__/g' > /opt/Espressif/ESP8266_SDK/include/machine/setjmp.h.bak && sudo mv /opt/Espressif/ESP8266_SDK/include/machine/setjmp.h.bak /opt/Espressif/ESP8266_SDK/include/machine/setjmp.h
+RUN cat /opt/Espressif/nodemcu-firmware/app/Makefile | sed -e 's/-L..\/lib/-L..\/lib -L\/opt\/Espressif\/ESP8266_SDK\/lib/g' >  /opt/Espressif/nodemcu-firmware/app/Makefile.bak && mv /opt/Espressif/nodemcu-firmware/app/Makefile.bak /opt/Espressif/nodemcu-firmware/app/Makefile
+RUN make
 
 WORKDIR /opt/Espressif
