@@ -9,7 +9,7 @@ MAINTAINER m.maatkamp@gmail.com version: 0.1
 RUN \
  apt-get update && \
  apt-get dist-upgrade -y && \
- apt-get install -y git autoconf build-essential gperf bison flex texinfo libtool libncurses5-dev wget gawk libc6-dev python-serial libexpat-dev unzip libtool
+ apt-get install -y git autoconf build-essential gperf bison flex texinfo libtool libncurses5-dev wget gawk libc6-dev python-serial libexpat-dev unzip libtool screen tmux
 
 RUN \
  mkdir /home/swuser && \
@@ -106,5 +106,12 @@ RUN sed -i -e 's/#if __XTENSA_WINDOWED_ABI__/#ifdef __XTENSA_WINDOWED_ABI__/g' /
     ln -s /opt/Espressif/ESP8266_SDK/lib/libhal.a lib && \
     ln -s /opt/Espressif/ESP8266_SDK/lib/libc.a lib/
 RUN make
+
+WORKDIR /opt/Espressif
+RUN git clone https://github.com/tuanpmt/esp_mqtt
+WORKDIR /opt/Espressif/esp_mqtt
+RUN make clean && \
+    make SDK_BASE="/opt/Espressif/ESP8266_SDK" FLAVOR="release" all && \
+    sudo make ESPPORT="/dev/ttyUSB0" flash
 
 WORKDIR /opt/Espressif
