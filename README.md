@@ -7,12 +7,10 @@ ESP8266 is a complete and self-contained Wi-Fi network solutions that can carry 
 Online community http://www.esp8266.com and https://nurdspace.nl/ESP8266 supporting all aspects of the ESP8266 and ESP8266EX. For more info see the wiki https://github.com/esp8266/esp8266-wiki/wiki
 
 This is a prebuild toolchain with every step from:
-<ul>
- <li>https://github.com/esp8266/esp8266-wiki/wiki/Toolchain</li>
- <li>https://github.com/esp8266/esp8266-wiki/wiki/Building</li>
- <li>https://github.com/esp8266/esp8266-wiki/wiki/Uploading</li>
- <li>https://github.com/nodemcu/nodemcu-firmware</li>
-</ul>
+ * https://github.com/esp8266/esp8266-wiki/wiki/Toolchain
+ * https://github.com/esp8266/esp8266-wiki/wiki/Building
+ * https://github.com/esp8266/esp8266-wiki/wiki/Uploading
+ * https://github.com/nodemcu/nodemcu-firmware
 
 To start this image simply use:
 ```
