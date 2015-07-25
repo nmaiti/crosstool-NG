@@ -8,51 +8,53 @@ Online community http://www.esp8266.com and https://nurdspace.nl/ESP8266 support
 
 This is a prebuild toolchain with every step from:
 <ul>
-<li>https://github.com/esp8266/esp8266-wiki/wiki/Toolchain</li>
-<li>https://github.com/esp8266/esp8266-wiki/wiki/Building</li>
-<li>https://github.com/esp8266/esp8266-wiki/wiki/Uploading</li>
-<li>https://github.com/nodemcu/nodemcu-firmware</li>
+ <li>https://github.com/esp8266/esp8266-wiki/wiki/Toolchain</li>
+ <li>https://github.com/esp8266/esp8266-wiki/wiki/Building</li>
+ <li>https://github.com/esp8266/esp8266-wiki/wiki/Uploading</li>
+ <li>https://github.com/nodemcu/nodemcu-firmware</li>
 </ul>
 
 To start this image simply use:
 ```
-$ docker run -ti --privileged marcelmaatkamp/esp8266-crosstool-ng:latest /bin/bash
+ $ docker run -ti --privileged marcelmaatkamp/esp8266-crosstool-ng:latest /bin/bash
 ```
 
 Then test your setup by uploading the example code:
 ```
-$ cd /opt/Espressif/source-code-examples/blinky
-$ make ESPPORT=/dev/ttyUSB0 flash
+ $ cd /opt/Espressif/source-code-examples/blinky
+ $ make ESPPORT=/dev/ttyUSB0 flash
 ```
+
 The nodemcu firmware can be found in:
 ```
-/opt/Espressif/nodemcu-firmware$ find . -name '*.bin'
-./pre_build/0.9.2/512k-flash/nodemcu_512k_20141212.bin
-./pre_build/0.9.2/512k-flash/nodemcu_512k_20141219.bin
-./pre_build/0.9.2/512k-flash/blank512k.bin
-./pre_build/0.9.2/1M-flash/nodemcu_1M_20141219.bin
-./pre_build/0.9.2/4M-flash/esp_init_data_default.bin
-./pre_build/0.9.2/4M-flash/eagle.app.v6.flash.bin
-./pre_build/0.9.2/4M-flash/blank.bin
-./pre_build/0.9.2/4M-flash/eagle.app.v6.irom0text.bin
-./pre_build/0.9.2/2M-flash/esp_init_data_default.bin
-./pre_build/0.9.2/2M-flash/eagle.app.v6.flash.bin
-./pre_build/0.9.2/2M-flash/nodemcu_2M_20141219.bin
-./pre_build/0.9.2/2M-flash/blank.bin
-./pre_build/0.9.2/2M-flash/eagle.app.v6.irom0text.bin
-./pre_build/0.9.4/512k-flash/nodemcu_512k_20141222.bin
-./pre_build/0.9.4/512k-flash/blank512k.bin
+ /opt/Espressif/nodemcu-firmware$ find . -name '*.bin'
+ ./pre_build/0.9.2/512k-flash/nodemcu_512k_20141212.bin
+ ./pre_build/0.9.2/512k-flash/nodemcu_512k_20141219.bin
+ ./pre_build/0.9.2/512k-flash/blank512k.bin
+ ./pre_build/0.9.2/1M-flash/nodemcu_1M_20141219.bin
+ ./pre_build/0.9.2/4M-flash/esp_init_data_default.bin
+ ./pre_build/0.9.2/4M-flash/eagle.app.v6.flash.bin
+ ./pre_build/0.9.2/4M-flash/blank.bin
+ ./pre_build/0.9.2/4M-flash/eagle.app.v6.irom0text.bin
+ ./pre_build/0.9.2/2M-flash/esp_init_data_default.bin
+ ./pre_build/0.9.2/2M-flash/eagle.app.v6.flash.bin
+ ./pre_build/0.9.2/2M-flash/nodemcu_2M_20141219.bin
+ ./pre_build/0.9.2/2M-flash/blank.bin
+ ./pre_build/0.9.2/2M-flash/eagle.app.v6.irom0text.bin
+ ./pre_build/0.9.4/512k-flash/nodemcu_512k_20141222.bin
+ ./pre_build/0.9.4/512k-flash/blank512k.bin
 ```
 
 To flash:
 ```
-$ ./esptool.py --port /dev/ttyUSB0 write_flash 0x00000 0.9.4/512k-flash/nodemcu_512k_20141222.bin
+ $ ./esptool.py --port /dev/ttyUSB0 write_flash 0x00000 0.9.4/512k-flash/nodemcu_512k_20141222.bin
 ```
+
 To validate:
 ```
-screen /dev/ttyUSB0 9600
+ screen /dev/ttyUSB0 9600
 
->> node.restart();
-NodeMcu 0.9.4 build 20141222  powered by Lua 5.1.4
->>
+ >> node.restart();
+ NodeMcu 0.9.4 build 20141222  powered by Lua 5.1.4
+ >>
 ```
