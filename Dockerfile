@@ -1,10 +1,15 @@
 FROM ubuntu:14.04
 
-MAINTAINER m.maatkamp@gmail.com version: 0.1
+MAINTAINER m.maatkamp@gmail.com version: 0.3
+
+ENV ESP_IOT_SDK_MAJOR_VERSION 0.9.5
+ENV ESP_IOT_SDK_MINOR_VERSION 15_01_23
+ENV ESP_IOT_SDK_VERSION $ESP_IOT_SDK_MAJOR_VERSION'_'$ESP_IOT_SDK_MINOR_VERSION
 
 # ---
 # crosstool-NG
 #  see https://github.com/marcelmaatkamp/crosstool-NG
+# ---
 
 RUN \
  apt-get update && \
@@ -17,6 +22,7 @@ RUN \
  useradd -u 431 -r -g swuser -d /home/swuser -s /sbin/nologin -c "Docker image user" swuser  && \
  chown -R swuser:swuser /home/swuser && \
  adduser swuser sudo && \
+ adduser swuser dialout && \
  echo '%sudo ALL=(ALL) NOPASSWD:ALL' >> /etc/sudoers
 
 WORKDIR /opt/Espressif
@@ -33,10 +39,6 @@ RUN \
  ./ct-ng build
 
 ENV PATH .:/opt/Espressif/crosstool-NG/builds/xtensa-lx106-elf/bin:/opt/Espressif/esptool-ck:$PATH
-
-ENV ESP_IOT_SDK_MAJOR_VERSION 1.2.0
-ENV ESP_IOT_SDK_MINOR_VERSION 15_07_03
-ENV ESP_IOT_SDK_VERSION $ESP_IOT_SDK_MAJOR_VERSION'_'$ESP_IOT_SDK_MINOR_VERSION
 
 WORKDIR /opt/Espressif
 RUN \
