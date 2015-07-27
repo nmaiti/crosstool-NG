@@ -28,22 +28,23 @@ $ make ESPPORT=/dev/ttyUSB0 flash
 The nodemcu firmware can be found in:
 
 ```
- /opt/Espressif/nodemcu-firmware$ find . -name '*.bin'
- ./pre_build/0.9.2/512k-flash/nodemcu_512k_20141212.bin
- ./pre_build/0.9.2/512k-flash/nodemcu_512k_20141219.bin
- ./pre_build/0.9.2/512k-flash/blank512k.bin
- ./pre_build/0.9.2/1M-flash/nodemcu_1M_20141219.bin
- ./pre_build/0.9.2/4M-flash/esp_init_data_default.bin
- ./pre_build/0.9.2/4M-flash/eagle.app.v6.flash.bin
- ./pre_build/0.9.2/4M-flash/blank.bin
- ./pre_build/0.9.2/4M-flash/eagle.app.v6.irom0text.bin
- ./pre_build/0.9.2/2M-flash/esp_init_data_default.bin
- ./pre_build/0.9.2/2M-flash/eagle.app.v6.flash.bin
- ./pre_build/0.9.2/2M-flash/nodemcu_2M_20141219.bin
- ./pre_build/0.9.2/2M-flash/blank.bin
- ./pre_build/0.9.2/2M-flash/eagle.app.v6.irom0text.bin
- ./pre_build/0.9.4/512k-flash/nodemcu_512k_20141222.bin
- ./pre_build/0.9.4/512k-flash/blank512k.bin
+/opt/Espressif/nodemcu-firmware$ find . -name '*.bin'
+
+./pre_build/0.9.2/512k-flash/nodemcu_512k_20141212.bin
+./pre_build/0.9.2/512k-flash/nodemcu_512k_20141219.bin
+./pre_build/0.9.2/512k-flash/blank512k.bin
+./pre_build/0.9.2/1M-flash/nodemcu_1M_20141219.bin
+./pre_build/0.9.2/4M-flash/esp_init_data_default.bin
+./pre_build/0.9.2/4M-flash/eagle.app.v6.flash.bin
+./pre_build/0.9.2/4M-flash/blank.bin
+./pre_build/0.9.2/4M-flash/eagle.app.v6.irom0text.bin
+./pre_build/0.9.2/2M-flash/esp_init_data_default.bin
+./pre_build/0.9.2/2M-flash/eagle.app.v6.flash.bin
+./pre_build/0.9.2/2M-flash/nodemcu_2M_20141219.bin
+./pre_build/0.9.2/2M-flash/blank.bin
+./pre_build/0.9.2/2M-flash/eagle.app.v6.irom0text.bin
+./pre_build/0.9.4/512k-flash/nodemcu_512k_20141222.bin
+./pre_build/0.9.4/512k-flash/blank512k.bin
 ```
 
 To flash the firmware into the ESP8266 module via USB2Serial:
