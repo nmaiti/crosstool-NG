@@ -114,7 +114,6 @@ RUN git clone https://github.com/tuanpmt/esp_mqtt
 WORKDIR /opt/Espressif/esp_mqtt
 RUN make clean && \
     make SDK_BASE="/opt/Espressif/ESP8266_SDK" FLAVOR="release" all 
-    
 
 # To flash the firmware
 #   sudo make ESPPORT="/dev/ttyUSB0" flash
