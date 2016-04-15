@@ -106,7 +106,7 @@ WORKDIR /opt/Espressif/nodemcu-firmware
 RUN sed -i -e 's/#if __XTENSA_WINDOWED_ABI__/#ifdef __XTENSA_WINDOWED_ABI__/g' /opt/Espressif/ESP8266_SDK/include/machine/setjmp.h && \
     sed -i -e 's/#define EFAULT 14/\/\/ #define EFAULT 14/g' app/include/arch/cc.h && \
     ln -s /opt/Espressif/ESP8266_SDK/lib/libhal.a lib && \
-    ln -s /opt/Espressif/ESP8266_SDK/lib/libc.a lib/
+    ln -s /opt/Espressif/ESP8266_SDK/lib/libc.a lib
 RUN make
 
 WORKDIR /opt/Espressif
